@@ -2,6 +2,9 @@
   "expo": {
     "name": "FynnV2",
     "slug": "FynnV2",
+    "extra": {
+      "openaiApiKey": "sk-my-fynn-app-p1e8ntKf7snzOZ6tRFQOT3BlbkFJm6DlADRIi5fO94be7hns"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,14 +15,29 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "bundleIdentifier": "com.yourcompany.yourapp",
+      "infoPlist": {
+        "NSCameraUsageDescription": "We need access to your camera to take photos",
+        "NSMicrophoneUsageDescription": "We need access to your microphone to record videos"
+      }
     },
     "android": {
+      "permissions": ["CAMERA"],
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       }
     },
+    "plugins": [
+      [
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera.",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone."
+        }
+      ],
+      "expo-asset"
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }

@@ -23,7 +23,7 @@ function LoginScreen({ navigation }) {
 
       const { access_token } = response.data;
       await AsyncStorage.setItem('access_token', access_token);
-      navigation.navigate('Home');
+      navigation.navigate('Onboarding1');
     } catch (error) {
       console.error(error);
       alert('Login failed');

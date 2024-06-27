@@ -1,8 +1,10 @@
-// src/components/Header.js
 import React from 'react';
 import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const Header = () => {
+  const navigation = useNavigation();
+
   return (
     <View style={styles.headerWrapper}>
       <View style={styles.headerContainer}>
@@ -10,7 +12,7 @@ const Header = () => {
           source={require('../img/Logo_Fynn_header.png')}
           style={styles.logo} 
         />
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
           <Image 
             source={require('../img/Intersectprofile.png')} 
             style={styles.profileIcon} 
@@ -25,7 +27,7 @@ const Header = () => {
         <TouchableOpacity style={styles.navItems}>
         <Image source={require('../img/navbar_eco_logo.png')} style={styles.navbarIcons}></Image>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItems}>
+        <TouchableOpacity style={styles.navItems} onPress={() => navigation.navigate('ChatBot')}>
         <Image source={require('../img/navbar_health_logo.png')} style={styles.navbarIcons}></Image>
         </TouchableOpacity>
       </View>

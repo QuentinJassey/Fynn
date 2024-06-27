@@ -1,8 +1,6 @@
-// src/components/VehicleSection.js
 import React, { useEffect, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Image } from 'react-native';
 import { useQuery, gql } from '@apollo/client';
-import RemoteSvg from 'react-native-remote-svg';
 
 const GET_VEHICLE_INFO = gql`
   query GetVehicleInfo {
@@ -27,7 +25,16 @@ function VehicleSection() {
 
   useEffect(() => {
     if (data && data.vehicles && data.vehicles.list.length > 0) {
-      setVehicle(data.vehicles.list[0].vin_descriptions);
+      const vehicleData = data.vehicles.list[0].vin_descriptions;
+      if (vehicleData.url_vehicle_image) {
+        const modifiedUrl = vehicleData.url_vehicle_image.replace(/\.\w+$/, '.png');
+        const updatedVehicleData = { ...vehicleData, url_vehicle_image: modifiedUrl };
+        console.log('Original URL:', vehicleData.url_vehicle_image);
+        console.log('Modified URL:', modifiedUrl);
+        setVehicle(updatedVehicleData);
+      } else {
+        setVehicle(vehicleData);
+      }
     }
   }, [data]);
 
@@ -40,13 +47,8 @@ function VehicleSection() {
         <View style={styles.vehicleContainer}>
           <Text style={styles.title1}>Mon véhicule</Text>
           <View style={styles.imageContainer}>
-            <RemoteSvg style={styles.image} source={{ uri: vehicle.url_vehicle_image }} />
+            <Image style={styles.image} source={{ uri: vehicle.url_vehicle_image }} />
           </View>
-
-          {/* <Text style={styles.title}>{vehicle.make} {vehicle.model}</Text>
-          <Text style={styles.details}>Year of Sale: {vehicle.year_of_sale}</Text>
-          <Text style={styles.details}>Color: {vehicle.color}</Text>
-          <Text style={styles.details}>Doors: {vehicle.doors}</Text> */}
         </View>
       ) : (
         <Text>No vehicle data available</Text>
@@ -57,12 +59,12 @@ function VehicleSection() {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems:'center',
+    alignItems: 'center',
   },
-  title1 :{
-    alignItems:'left',
-    fontSize:24,
-    color:'#2B3240',
+  title1: {
+    alignSelf: 'flex-start',
+    fontSize: 24,
+    color: '#2B3240',
     fontFamily: 'Poppins-Bold',
   },
   vehicleContainer: {
@@ -74,11 +76,11 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 8,
     elevation: 5,
-    paddingBottom:0,
+    paddingBottom: 0,
   },
   imageContainer: {
     width: '100%',
-    height: 200, // Ajustez la hauteur selon vos besoins
+    height: 200,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
     resizeMode: 'contain',
-    marginTop:-40,
+    marginTop: -40,
   },
 });
 

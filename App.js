@@ -1,10 +1,10 @@
-// App.js
 import React, { useEffect, useState } from 'react';
 import AppNavigator from './src/Navigation';
 import { ApolloProvider } from '@apollo/client';
 import client from './src/ApolloClient';
 import * as Font from 'expo-font';
 import { View, ActivityIndicator } from 'react-native';
+import { VehicleProvider } from './VehicleContext';
 
 function App() {
   const [fontsLoaded, setFontsLoaded] = useState(false);
@@ -34,7 +34,9 @@ function App() {
 
   return (
     <ApolloProvider client={client}>
-      <AppNavigator />
+      <VehicleProvider>
+        <AppNavigator />
+      </VehicleProvider>
     </ApolloProvider>
   );
 }
